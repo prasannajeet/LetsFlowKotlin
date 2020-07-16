@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: 'gradleScripts/dependencies.gradle'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.prasan.letsflowkotlin"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    // Kotlin specific dependencies
+    implementation kotlinDependencies.kotlinStdlib
+    implementation kotlinDependencies.coroutinesCore
+    implementation kotlinDependencies.coroutinesAndroid
+
+    // Core Android dependencies
+    implementation androidxDependencies.core
+    implementation androidxDependencies.appCompat
+    implementation androidxDependencies.constraintLayout
+    implementation androidxDependencies.navigationFragment
+    implementation androidxDependencies.recyclerView
+    implementation androidxDependencies.legacy
+    implementation androidxDependencies.lifecycleExtensions
+
+    // UI
+    implementation utilLibs.circleImageView
+
+    // Networking
+    implementation networkingDependencies.retrofitCore
+    implementation networkingDependencies.retrofitMoshiConverter
+    implementation networkingDependencies.moshi
+    kapt networkingDependencies.moshiAnnotation
+    implementation networkingDependencies.okhttp
+    implementation networkingDependencies.okhttpLoggingInterceptor
+    implementation (networkingDependencies.picasso){
+        exclude group: "com.android.support"
+    }
+
+    // Android KTX
+    implementation androidKtx.activityKtx
+    implementation androidKtx.fragmentKtx
+    implementation androidKtx.viewModelKtx
+    implementation androidKtx.runtimeKtx
+    implementation androidKtx.navigationKtx
+
+    // Test
+    testImplementation testing.junit
+    androidTestImplementation testing.junitAndroid
+    androidTestImplementation testing.espresso
+    testImplementation testing.mockk
+    testImplementation testing.coroutinesTest
+    testImplementation testing.androidCoreTest
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+}
